@@ -111,7 +111,7 @@ class YD:
         elif res.status_code == 409:
             print(res.json()['message'])
 
-    def upload_photo(self):
+    def upload_photo(self, file_name='Info file.json'):
         url_ya_upload = 'https://cloud-api.yandex.net/v1/disk/resources/upload?'
         vk = VK()
         res = vk.vk_pars()
@@ -119,7 +119,7 @@ class YD:
             for item in tqdm(res.json()['response']['items'], desc='Photos uploading', unit=' photo'):
                 list_data = []
                 name = f"{item['likes']['count']}"
-                if name in list_of_names('Info file.json'):
+                if name in list_of_names(file_name):
                     name += '_' + str(time.ctime())
                     name = name.replace(':', '_')
                 ya_params = {'path': f"py_diplom_basic/{name}.jpg",
@@ -133,7 +133,7 @@ class YD:
                     'status upload': response.status_code
                 }
                 list_data.append(data)
-                write_file(list_data, 'Info file.json')
+                write_file(list_data, file_name)
             else:
                 return
 
